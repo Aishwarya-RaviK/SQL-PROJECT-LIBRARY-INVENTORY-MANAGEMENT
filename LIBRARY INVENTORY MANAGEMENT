@@ -1,0 +1,68 @@
+# LIBRARY INVENTORY MANAGEMENT SYSTEM USING SQL (DATABASES)
+# to create database and use it and create a table inside it and then insert values 
+create database lib_books;
+use lib_books;
+create table books(
+id int auto_increment,
+book_name varchar(30) not null,
+author_name varchar(30) not null,
+alias_name varchar(30) not null,
+rating int not null,
+in_stock int not null,
+primary key(id)
+);
+insert into books(book_name,author_name,alias_name,rating,in_stock)
+values
+('Introduction to C','E.Balaguruswamy','C',4,9),
+('Programming in C','R.Bill','C',3,2),
+('Java programming','Emma Wills','Java',5,4),
+('Java basics','Yayati Gupta','Java',4,8),
+('Programming in C++','E.Balaguruswamy','C++',5,6),
+('Python Programming','Andrew Darkins','Python',3,8),
+('Python basics','Anline Johnson','Python',4,7);
+# query to see the table
+select * from books;
+# queries to get the list of books as required
+select * from books where rating>3;
+select * from books where book_name like "%java%";
+# to update the value inside a table
+update books set in_stock=5 where book_name like "%c%";
+# query to create another table in same database and to insert values
+create table stud(
+id int not null,
+first_name varchar(30),
+last_name varchar(30),
+books_count int not null,
+dept_id int auto_increment,
+primary key(dept_id)
+);
+insert into  stud(id,first_name,last_name,books_count)
+values
+(1,'Anil','gupta',3),
+(2,'Ashik','Kumar',2),
+(3,'Gagan','Singh',1),
+(4,'Harika','Ranjol',3),
+(5,'Chandini','Rani',4),
+(6,'Regina','Cassandra',3),
+(7,'Rebecca','Dennis',4);
+select * from stud where id>1;
+# query to create a view of books which have higher ratings
+create view book_view as 
+select book_name from books where rating >2;
+select * from book_view;
+#update id values
+update stud set id=8 where dept_id=1;
+update stud set id=10 where dept_id=2;
+update stud set id=9 where dept_id=7;
+select * from stud;
+# joins
+select books.id,books.book_name,books.author_name,books.alias_name,books.rating,books.in_stock 
+from books inner join stud on books.id=stud.id;
+select books.id,books.book_name,books.author_name,books.alias_name,books.rating,books.in_stock,stud.dept_id,stud.first_name,stud.last_name,stud.books_count
+from books left join stud on books.id=stud.id;
+select books.id,books.book_name,books.author_name,books.alias_name,books.rating,books.in_stock,stud.dept_id,stud.first_name,stud.last_name,stud.books_count
+from books inner join stud on books.id=stud.id;
+select books.id,books.book_name,books.author_name,books.alias_name,books.rating,books.in_stock,stud.dept_id,stud.first_name,stud.last_name,stud.books_count
+from books right join stud on books.id=stud.id;
+select books.id,books.book_name,books.author_name,books.alias_name,books.rating,books.in_stock,stud.dept_id,stud.first_name,stud.last_name,stud.books_count
+from books cross join stud on books.id=stud.id;
